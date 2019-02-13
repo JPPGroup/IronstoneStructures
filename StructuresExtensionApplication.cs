@@ -54,7 +54,7 @@ namespace Jpp.Ironstone.Structures
 
         public void Initialize()
         {
-            CoreExtensionApplication.RegisterExtension(this);
+            CoreExtensionApplication._current.RegisterExtension(this);
         }
 
         public void InjectContainer(IUnityContainer container)
