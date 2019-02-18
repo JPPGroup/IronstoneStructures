@@ -110,22 +110,22 @@
     <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Common.0.1.4\lib\netstandard2.0\Common.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCore, Version=0.1.40.60, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.0.1.40\lib\net472\IronstoneCore.dll</HintPath>
+    <Reference Include="IronstoneCore, Version=0.1.44.64, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.0.1.44\lib\net472\IronstoneCore.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCoreUI, Version=0.1.40.60, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.40\lib\net472\IronstoneCoreUI.dll</HintPath>
+    <Reference Include="IronstoneCoreUI, Version=0.1.44.64, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.44\lib\net472\IronstoneCoreUI.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneStructuresObjectmodel, Version=0.1.5.26, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Structures.Objectmodel.0.1.5\lib\net472\IronstoneStructuresObjectmodel.dll</HintPath>
+    <Reference Include="IronstoneStructuresObjectmodel, Version=0.1.9.39, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Structures.Objectmodel.0.1.9\lib\net472\IronstoneStructuresObjectmodel.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -181,9 +181,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dpwin64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="dpwin64.dll" />
     <Content Include="IronstoneCore.xml" />
     <Content Include="Resources\clock_go.png" />
     <Content Include="Resources\clock_go1.png" />
