@@ -12,17 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Jpp.Ironstone.Core.UI;
+using Jpp.Ironstone.Structures.ViewModels;
 
 namespace Jpp.Ironstone.Structures.Views
 {
     /// <summary>
     /// Interaction logic for SoilPropertiesView.xaml
     /// </summary>
-    public partial class SoilPropertiesView : UserControl
+    public partial class SoilPropertiesView : HostedUserControl
     {
         public SoilPropertiesView()
         {
             InitializeComponent();
+        }
+
+        public override void Show()
+        {
+            this.DataContext = new SoilPropertiesViewModel();
+        }
+
+        public override void Hide()
+        {
+
         }
     }
 }

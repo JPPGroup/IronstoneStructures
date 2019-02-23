@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Customization;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 using Jpp.Ironstone.Core;
+using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Structures.Views;
 using Unity;
@@ -20,6 +21,15 @@ namespace Jpp.Ironstone.Structures
 {
     class StructuresExtensionApplication : IIronstoneExtensionApplication
     {
+        public ILogger Logger { get; set; }
+
+        public static StructuresExtensionApplication Current
+        {
+            get { return _current; }
+        }
+
+        private static StructuresExtensionApplication _current;
+
         public void CreateUI()
         {
             RibbonControl rc = Autodesk.Windows.ComponentManager.Ribbon;
@@ -54,12 +64,13 @@ namespace Jpp.Ironstone.Structures
 
         public void Initialize()
         {
+            _current = this;
             CoreExtensionApplication._current.RegisterExtension(this);
         }
 
         public void InjectContainer(IUnityContainer container)
         {
-
+            Logger = container.Resolve<ILogger>();
         }
 
         public void Terminate()

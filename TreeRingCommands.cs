@@ -18,6 +18,8 @@ namespace Jpp.Ironstone.Structures
         [CommandMethod("S_TreeRings_New")]
         public static void NewTree()
         {
+            StructuresExtensionApplication.Current.Logger.LogEvent(Event.Command, "S_TreeRings_New");
+
             Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
 
