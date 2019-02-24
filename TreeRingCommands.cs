@@ -30,12 +30,41 @@ namespace Jpp.Ironstone.Structures
 
                 //TODO: Add tree determination in here
                 PromptKeywordOptions pKeyOpts = new PromptKeywordOptions("");
+                pKeyOpts.Message = "\nExisting or Proposed ";
+                pKeyOpts.Keywords.Add("Existing");
+                pKeyOpts.Keywords.Add("Proposed");
+                pKeyOpts.AllowNone = false;
+
+                PromptResult pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
+
+                switch (pKeyRes.StringResult)
+                {
+                    case "Existing":
+                        newTree.Phase = Phase.Existing;
+                        break;
+
+                    case "Proposed":
+                        newTree.Phase = Phase.Proposed;
+                        break;
+                }
+
+                pKeyOpts = new PromptKeywordOptions("");
                 pKeyOpts.Message = "\nTree Type ";
                 pKeyOpts.Keywords.Add("Deciduous");
                 pKeyOpts.Keywords.Add("Coniferous");
                 pKeyOpts.AllowNone = false;
 
-                PromptResult pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+                pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
                 if (pKeyRes.StringResult == "Deciduous")
                 {
                     newTree.TreeType = TreeType.Deciduous;
@@ -57,6 +86,11 @@ namespace Jpp.Ironstone.Structures
                 pKeyOpts.AllowNone = false;
 
                 pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
                 Dictionary<string, int> speciesList = NHBCTree.DeciduousHigh;
                 switch (pKeyRes.StringResult)
                 {
@@ -109,23 +143,69 @@ namespace Jpp.Ironstone.Structures
 
                 pKeyOpts.AllowNone = false;
                 pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
                 newTree.Species = pKeyRes.StringResult;
 
                 float maxHeight = (float) speciesList[newTree.Species];
 
-                PromptStringOptions pStrOptsPlot =
-                    new PromptStringOptions("\nEnter tree height: ")
-                    {
-                        AllowSpaces = false,
-                        DefaultValue = maxHeight.ToString()
-                    };
-                PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-
-                float actualHeight = float.Parse(pStrResPlot.StringResult);
-
-                if (actualHeight < maxHeight / 2)
+                PromptStringOptions pStrOptsPlot;
+                PromptResult pStrResPlot;
+                
+                if (newTree.Phase == Phase.Existing)
                 {
-                    newTree.Height = actualHeight;
+                    pKeyOpts = new PromptKeywordOptions("");
+                    pKeyOpts.Message = "\nIs tree to be removed? ";
+                    pKeyOpts.Keywords.Add("Yes");
+                    pKeyOpts.Keywords.Add("No");
+                    pKeyOpts.Keywords.Default = "No";
+                    pKeyOpts.AllowNone = false;
+                    pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
+
+                    if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                    {
+                        acTrans.Abort();
+                        return;
+                    }
+
+                    switch (pKeyRes.StringResult)
+                    {
+                        case "Yes":
+                            pStrOptsPlot =
+                                new PromptStringOptions("\nEnter current tree height: ")
+                                {
+                                    AllowSpaces = false,
+                                    DefaultValue = maxHeight.ToString()
+                                };
+
+                            pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
+                            if (pStrResPlot.Status != PromptStatus.OK)
+                            {
+                                acTrans.Abort();
+                                return;
+                            }
+
+                            float actualHeight = float.Parse(pStrResPlot.StringResult);
+
+                            if (actualHeight < maxHeight / 2)
+                            {
+                                newTree.Height = actualHeight;
+                            }
+                            else
+                            {
+                                newTree.Height = maxHeight;
+                            }
+                            break;
+
+                        case "No":
+                            newTree.Height = maxHeight;
+                            break;
+                    }
+
+                    
                 }
                 else
                 {
@@ -137,28 +217,20 @@ namespace Jpp.Ironstone.Structures
 
                 pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false, DefaultValue = treeRingManager.Trees.Count.ToString() };
                 pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-                newTree.ID = pStrResPlot.StringResult;
-
-                pKeyOpts = new PromptKeywordOptions("");
-                pKeyOpts.Message = "\nExisting or Proposed ";
-                pKeyOpts.Keywords.Add("Existing");
-                pKeyOpts.Keywords.Add("Proposed");
-                pKeyOpts.AllowNone = false;
-
-                pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-                switch (pKeyRes.StringResult)
+                if (pStrResPlot.Status != PromptStatus.OK)
                 {
-                    case "Existing":
-                        newTree.Phase = Phase.Existing;
-                        break;
-
-                    case "Proposed":
-                        newTree.Phase = Phase.Proposed;
-                        break;
+                    acTrans.Abort();
+                    return;
                 }
-
+                newTree.ID = pStrResPlot.StringResult;
+                
                 PromptPointOptions pPtOpts = new PromptPointOptions("\nClick to enter location: ");
                 PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                if (pPtRes.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
 
                 newTree.Location = new Autodesk.AutoCAD.Geometry.Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0);
                 newTree.AddLabel();

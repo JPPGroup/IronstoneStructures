@@ -103,8 +103,8 @@
       <HintPath>packages\AutoCAD.NET.23.0.0\lib\net47\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AutoUpdate, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AutoUpdate.1.0.8\lib\net47\AutoUpdate.dll</HintPath>
+    <Reference Include="AutoUpdate, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoUpdate.1.0.12\lib\net47\AutoUpdate.dll</HintPath>
     </Reference>
     <Reference Include="AutoUpdater.NET, Version=1.5.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>packages\Autoupdater.NET.Official.1.5.0\lib\net40\AutoUpdater.NET.dll</HintPath>
@@ -113,25 +113,38 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Common.0.1.4\lib\netstandard2.0\Common.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCore, Version=0.1.52.75, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="IronstoneCore, Version=0.1.65.91, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Jpp.Ironstone.Core.0.1.52\lib\net472\IronstoneCore.dll</HintPath>
+      <HintPath>packages\Jpp.Ironstone.Core.0.1.65\lib\net472\IronstoneCore.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCoreUI, Version=0.1.52.75, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="IronstoneCoreUI, Version=0.1.65.91, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.52\lib\net472\IronstoneCoreUI.dll</HintPath>
+      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.65\lib\net472\IronstoneCoreUI.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneStructuresObjectmodel, Version=0.1.11.48, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="IronstoneStructuresObjectmodel, Version=0.1.14.65, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Jpp.Ironstone.Structures.Objectmodel.0.1.11\lib\net472\IronstoneStructuresObjectmodel.dll</HintPath>
+      <HintPath>packages\Jpp.Ironstone.Structures.Objectmodel.0.1.14\lib\net472\IronstoneStructuresObjectmodel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.9.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ApplicationInsights.2.9.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -146,8 +159,8 @@
       <HintPath>packages\Unity.5.9.4\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="ZipExtract, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AutoUpdate.1.0.8\lib\net47\ZipExtract.dll</HintPath>
+    <Reference Include="ZipExtract, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoUpdate.1.0.12\lib\net47\ZipExtract.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +187,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Tree-Small.png" />
     <None Include="Resources\Earth-Small.png" />
