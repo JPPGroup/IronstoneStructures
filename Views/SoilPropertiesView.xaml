@@ -12,7 +12,7 @@
     <ui:HostedUserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AutocadStyleResourceDictionary.xaml"/>
+                <ResourceDictionary Source="../AutocadStyleResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
