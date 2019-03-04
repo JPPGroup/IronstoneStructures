@@ -37,26 +37,18 @@ namespace Jpp.Ironstone.Structures
 
             RibbonPanel Panel = new RibbonPanel();
             RibbonPanelSource source = new RibbonPanelSource();
-            RibbonRowPanel stack = new RibbonRowPanel();
-            stack.IsTopJustified = true;
-
             source.Title = Properties.Resources.ExtensionApplication_UI_PanelTitle;
 
-            stack.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, System.Windows.Controls.Orientation.Horizontal, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
-
-            /*UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton,
-                Properties.Resources.Earth_Small, RibbonItemSize.Standard, System.Windows.Controls.Orientation.Horizontal,
-                new SoilPropertiesView(),
-                "4c7eae1d-ce9f-4a7a-a397-584aced7983c");*/
-
-            stack.Items.Add(new RibbonRowBreak());
-
-            /*stack.Items.Add(Utilities.CreateWindowToggle(Properties.Resources.Structures_TreeRing_MenuButton,
-                Properties.Resources.Tree_Small, RibbonItemSize.Standard, Orientation.Horizontal, new TreeRingView(),
-                "36a12ae4-06b2-432b-a445-64c62daa937f"));*/
+            RibbonRowPanel column1 = new RibbonRowPanel();
+            column1.IsTopJustified = true;
+            column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, System.Windows.Controls.Orientation.Horizontal, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
+            column1.Items.Add(new RibbonRowBreak());
+            column1.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New "));
+            //source.Items.Add(new RibbonRowBreak());
 
             //Build the UI hierarchy
-            source.Items.Add(stack);
+            source.Items.Add(column1);
+            
             Panel.Source = source;
 
             primaryTab.Panels.Add(Panel);

@@ -7,6 +7,7 @@
              xmlns:structures="clr-namespace:Jpp.Ironstone.Structures.Objectmodel;assembly=IronstoneStructuresObjectmodel"
              xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"
              xmlns:converters="clr-namespace:Autodesk.Windows.Converters;assembly=AdUiPalettes"
+             xmlns:viewModels="clr-namespace:Jpp.Ironstone.Structures.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <ui:HostedUserControl.Resources>
@@ -23,7 +24,15 @@
                 <Label>Soil Shrinkability</Label>
                 <ComboBox ItemsSource="{Binding Source={ui:EnumBindingSource {x:Type structures:Shrinkage}}}" SelectedItem="{Binding Shrinkage}"/>
                 <Label>Tree Ring Stepping (m)</Label>
-                <TextBox Text="{Binding TargetStepSize, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox >
+                    <TextBox.Text>
+                        <Binding Path="TargetStepSize" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <viewModels:StepSizeValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
         </GroupBox>
         <CheckBox Content="Granular Soil" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding Granular}"/>

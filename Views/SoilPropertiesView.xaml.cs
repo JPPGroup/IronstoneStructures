@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Structures.ViewModels;
+using Path = System.IO.Path;
 
 namespace Jpp.Ironstone.Structures.Views
 {
