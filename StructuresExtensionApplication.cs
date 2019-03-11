@@ -41,7 +41,7 @@ namespace Jpp.Ironstone.Structures
 
             RibbonRowPanel column1 = new RibbonRowPanel();
             column1.IsTopJustified = true;
-            column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, System.Windows.Controls.Orientation.Horizontal, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
+            column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
             column1.Items.Add(new RibbonRowBreak());
             column1.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New "));
             //source.Items.Add(new RibbonRowBreak());

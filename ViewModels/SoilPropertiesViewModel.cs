@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
-using Jpp.Ironstone.Structures.Objectmodel;
+using Jpp.Ironstone.Structures.ObjectModel;
 
 namespace Jpp.Ironstone.Structures.ViewModels
 {

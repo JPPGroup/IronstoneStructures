@@ -8,8 +8,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Jpp.Ironstone.Core.ServiceInterfaces;
-using Jpp.Ironstone.Structures.Objectmodel;
-using Jpp.Ironstone.Structures.Objectmodel.TreeRings;
+using Jpp.Ironstone.Structures.ObjectModel;
+using Jpp.Ironstone.Structures.ObjectModel.TreeRings;
 
 namespace Jpp.Ironstone.Structures
 {

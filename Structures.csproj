@@ -86,8 +86,8 @@
       <HintPath>packages\AutoCAD.NET.23.0.0\lib\net47\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AutoUpdate, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AutoUpdate.1.0.12\lib\net47\AutoUpdate.dll</HintPath>
+    <Reference Include="AutoUpdate, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoUpdate.1.0.13\lib\net47\AutoUpdate.dll</HintPath>
     </Reference>
     <Reference Include="AutoUpdater.NET, Version=1.5.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>packages\Autoupdater.NET.Official.1.5.0\lib\net40\AutoUpdater.NET.dll</HintPath>
@@ -96,14 +96,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Common.0.1.4\lib\netstandard2.0\Common.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCore, Version=0.1.71.98, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.0.1.71\lib\net472\IronstoneCore.dll</HintPath>
+    <Reference Include="IronstoneCore, Version=0.1.87.119, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.0.1.87\lib\net472\IronstoneCore.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneCoreUI, Version=0.1.71.98, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.71\lib\net472\IronstoneCoreUI.dll</HintPath>
+    <Reference Include="IronstoneCoreUI, Version=0.1.87.119, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.87\lib\net472\IronstoneCoreUI.dll</HintPath>
     </Reference>
-    <Reference Include="IronstoneStructuresObjectmodel, Version=0.1.17.74, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Structures.Objectmodel.0.1.17\lib\net472\IronstoneStructuresObjectmodel.dll</HintPath>
+    <Reference Include="IronstoneStructuresObjectModel, Version=0.1.34.109, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Structures.ObjectModel.0.1.34\lib\net472\IronstoneStructuresObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.9.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.ApplicationInsights.2.9.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
@@ -132,15 +132,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>packages\Unity.5.9.4\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.5.9.7\lib\net47\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.9.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>packages\Unity.5.9.4\lib\net47\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.9.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.5.9.7\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="ZipExtract, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AutoUpdate.1.0.12\lib\net47\ZipExtract.dll</HintPath>
+    <Reference Include="ZipExtract, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoUpdate.1.0.13\lib\net47\ZipExtract.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

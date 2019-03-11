@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Jpp.Ironstone.Structures.Views"
-             xmlns:structures="clr-namespace:Jpp.Ironstone.Structures.Objectmodel;assembly=IronstoneStructuresObjectmodel"
+             xmlns:structures="clr-namespace:Jpp.Ironstone.Structures.ObjectModel;assembly=IronstoneStructuresObjectModel"
              xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"
              xmlns:converters="clr-namespace:Autodesk.Windows.Converters;assembly=AdUiPalettes"
              xmlns:viewModels="clr-namespace:Jpp.Ironstone.Structures.ViewModels"
