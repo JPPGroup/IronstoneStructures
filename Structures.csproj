@@ -96,8 +96,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Common.0.1.4\lib\netstandard2.0\Common.dll</HintPath>
     </Reference>
+    <Reference Include="IronstoneCore, Version=0.1.93.130, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Jpp.Ironstone.Core.0.1.93\lib\net472\IronstoneCore.dll</HintPath>
+    </Reference>
     <Reference Include="IronstoneCoreUI, Version=0.1.93.130, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.93\lib\net472\IronstoneCoreUI.dll</HintPath>
+    </Reference>
+    <Reference Include="IronstoneStructuresObjectModel, Version=0.1.37.118, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Jpp.Ironstone.Structures.ObjectModel.0.1.37\lib\net472\IronstoneStructuresObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.9.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.ApplicationInsights.2.9.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
@@ -185,16 +193,6 @@
     <Content Include="IronstoneConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ironstone-core\Ironstone Core\Ironstone Core.csproj">
-      <Project>{A3BFA507-A2C4-4C33-943B-6083133EE63C}</Project>
-      <Name>Ironstone Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ironstone-object-model\Structures\StructuresObjectModel.csproj">
-      <Project>{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}</Project>
-      <Name>StructuresObjectModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets" Condition="Exists('packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets')" />
