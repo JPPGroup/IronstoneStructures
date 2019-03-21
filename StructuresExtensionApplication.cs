@@ -14,6 +14,7 @@ using Unity;
 using RibbonControl = Autodesk.Windows.RibbonControl;
 using RibbonPanelSource = Autodesk.Windows.RibbonPanelSource;
 using RibbonRowPanel = Autodesk.Windows.RibbonRowPanel;
+using RibbonSplitButton = Autodesk.Windows.RibbonSplitButton;
 
 [assembly: ExtensionApplication(typeof(Jpp.Ironstone.Structures.StructuresExtensionApplication))]
 
@@ -43,8 +44,12 @@ namespace Jpp.Ironstone.Structures
             column1.IsTopJustified = true;
             column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
             column1.Items.Add(new RibbonRowBreak());
-            column1.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New "));
-            //source.Items.Add(new RibbonRowBreak());
+
+            RibbonSplitButton rsb = new RibbonSplitButton();
+            rsb.ShowText = true;
+            rsb.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New"));
+            rsb.Items.Add(UIHelper.CreateButton("Copy Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_Copy"));
+            column1.Items.Add(rsb);
 
             //Build the UI hierarchy
             source.Items.Add(column1);
