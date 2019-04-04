@@ -240,5 +240,60 @@ namespace Jpp.Ironstone.Structures
                 acTrans.Commit();
             }
         }
+
+        [CommandMethod("S_TreeRings_Copy")]
+        public static void CopyTree()
+        {
+            StructuresExtensionApplication.Current.Logger.LogEvent(Event.Command, "S_TreeRings_Copy");
+
+            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database acCurDb = acDoc.Database;
+
+            using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+            {
+                PromptStringOptions pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false };
+                PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
+                if (pStrResPlot.Status != PromptStatus.OK)
+                {
+                    acTrans.Abort();
+                    return;
+                }
+
+                string ID = pStrResPlot.StringResult;
+
+                TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                NHBCTree treeToBeCopied = treeRingManager.Trees.FirstOrDefault(t => t.ID == ID);
+                if (treeToBeCopied == null)
+                {
+                    StructuresExtensionApplication.Current.Logger.Entry($"No tree found matching ID {ID}",
+                        Severity.Warning);
+                    acTrans.Abort();
+                    return;
+                }
+
+                PromptPointOptions pPtOpts = new PromptPointOptions("\nEnter location: ");
+                PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                while (pPtRes.Status == PromptStatus.OK)
+                {
+                    NHBCTree newTree = new NHBCTree();
+                    newTree.Height = treeToBeCopied.Height;
+                    newTree.Phase = treeToBeCopied.Phase;
+                    newTree.Species = treeToBeCopied.Species;
+                    newTree.TreeType = treeToBeCopied.TreeType;
+                    newTree.WaterDemand = treeToBeCopied.WaterDemand;
+                    newTree.ID = treeRingManager.Trees.Count.ToString();
+
+                    newTree.Location = new Autodesk.AutoCAD.Geometry.Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0);
+                    newTree.AddLabel();
+
+                    treeRingManager.AddTree(newTree);
+
+                    acDoc.TransactionManager.QueueForGraphicsFlush();
+                    pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                }
+
+                acTrans.Commit();
+            }
+        }
     }
 }
