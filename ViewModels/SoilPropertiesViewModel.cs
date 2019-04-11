@@ -15,6 +15,8 @@ namespace Jpp.Ironstone.Structures.ViewModels
     {
         private SoilProperties Model;
 
+        public string[] ShrinkageTypes => Enum.GetNames(typeof(Shrinkage));
+
         public Shrinkage Shrinkage
         {
             get { return Model.SoilShrinkability; }

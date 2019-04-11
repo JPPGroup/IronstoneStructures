@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Jpp.Ironstone.Structures.Views"
              xmlns:structures="clr-namespace:Jpp.Ironstone.Structures.ObjectModel;assembly=IronstoneStructuresObjectModel"
-             xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"
              xmlns:converters="clr-namespace:Autodesk.Windows.Converters;assembly=AdUiPalettes"
+             xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"           
              xmlns:viewModels="clr-namespace:Jpp.Ironstone.Structures.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -22,7 +22,7 @@
         <GroupBox Header="Cohesive" Margin="10,37,10,0" Height="128" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
             <StackPanel>
                 <Label>Soil Shrinkability</Label>
-                <ComboBox ItemsSource="{Binding Source={ui:EnumBindingSource {x:Type structures:Shrinkage}}}" SelectedItem="{Binding Shrinkage}"/>
+                <ComboBox ItemsSource="{Binding ShrinkageTypes}" SelectedItem="{Binding Shrinkage}"/>
                 <Label>Tree Ring Stepping (m)</Label>
                 <TextBox >
                     <TextBox.Text>
