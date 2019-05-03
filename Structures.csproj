@@ -94,16 +94,16 @@
       <HintPath>packages\Common.0.1.5\lib\netstandard2.0\Common.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IronstoneCore, Version=0.1.98.144, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.0.1.98\lib\net472\IronstoneCore.dll</HintPath>
+    <Reference Include="IronstoneCore, Version=0.1.100.153, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.0.1.100\lib\net472\IronstoneCore.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IronstoneCoreUI, Version=0.1.98.144, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.98\lib\net472\IronstoneCoreUI.dll</HintPath>
+    <Reference Include="IronstoneCoreUI, Version=0.1.100.153, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Core.UI.0.1.100\lib\net472\IronstoneCoreUI.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="IronstoneStructuresObjectModel, Version=0.1.42.135, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Jpp.Ironstone.Structures.ObjectModel.0.1.42\lib\net472\IronstoneStructuresObjectModel.dll</HintPath>
+    <Reference Include="IronstoneStructuresObjectModel, Version=0.1.45.139, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Jpp.Ironstone.Structures.ObjectModel.0.1.45\lib\net472\IronstoneStructuresObjectModel.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.9.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -113,7 +113,7 @@
       <HintPath>packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>packages\NLog.4.6.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>packages\NLog.4.6.3\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -198,18 +198,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IronstoneConfig.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="IronstoneConfig.xml" />
     <Content Include="IronstoneConfigBeta.xml" />
     <Content Include="IronstoneConfigRelease.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets" Condition="Exists('packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets')" />
+  <Import Project="packages\Jpp.Common.Tooling.Signing.0.3.0\build\Jpp.Common.Tooling.Signing.targets" Condition="Exists('packages\Jpp.Common.Tooling.Signing.0.3.0\build\Jpp.Common.Tooling.Signing.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Jpp.Common.Tooling.Signing.0.2.0\build\Jpp.Common.Tooling.Signing.targets'))" />
+    <Error Condition="!Exists('packages\Jpp.Common.Tooling.Signing.0.3.0\build\Jpp.Common.Tooling.Signing.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Jpp.Common.Tooling.Signing.0.3.0\build\Jpp.Common.Tooling.Signing.targets'))" />
   </Target>
 </Project>
