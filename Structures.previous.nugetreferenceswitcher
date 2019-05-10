@@ -1,2 +1,1 @@
-Ironstone Core	../ironstone-core/Ironstone%20Core/Ironstone%20Core.csproj	packages/Jpp.Ironstone.Core.0.1.93/lib/net472/IronstoneCore.dll
-StructuresObjectModel	../ironstone-object-model/Structures/StructuresObjectModel.csproj	packages/Jpp.Ironstone.Structures.ObjectModel.0.1.37/lib/net472/IronstoneStructuresObjectModel.dll
+StructuresObjectModel	../ironstone-object-model/Structures/StructuresObjectModel.csproj	packages/Jpp.Ironstone.Structures.ObjectModel.0.1.44/lib/net472/IronstoneStructuresObjectModel.dll
