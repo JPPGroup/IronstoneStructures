@@ -51,7 +51,7 @@ namespace Jpp.Ironstone.Structures
                                 DBObjectCollection parts = new DBObjectCollection();
                                 acEnt.Explode(parts);
 
-                                if (parts.Count > 1)
+                                if (parts.Count >= 1)
                                 {
                                     acEnt.UpgradeOpen();
                                     acEnt.Erase();
