@@ -215,7 +215,7 @@ namespace Jpp.Ironstone.Structures
                 //TreeRingManager treeRingManager = DrawingObjectManagerCollection.Current.Resolve<TreeRingManager>();
                 TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
 
-                pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false, DefaultValue = treeRingManager.Trees.Count.ToString() };
+                pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false, DefaultValue = treeRingManager.ManagedObjects.Count.ToString() };
                 pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
                 if (pStrResPlot.Status != PromptStatus.OK)
                 {
@@ -262,7 +262,7 @@ namespace Jpp.Ironstone.Structures
                 string ID = pStrResPlot.StringResult;
 
                 TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                NHBCTree treeToBeCopied = treeRingManager.Trees.FirstOrDefault(t => t.ID == ID);
+                NHBCTree treeToBeCopied = treeRingManager.ManagedObjects.FirstOrDefault(t => t.ID == ID);
                 if (treeToBeCopied == null)
                 {
                     StructuresExtensionApplication.Current.Logger.Entry($"No tree found matching ID {ID}",
@@ -281,7 +281,7 @@ namespace Jpp.Ironstone.Structures
                     newTree.Species = treeToBeCopied.Species;
                     newTree.TreeType = treeToBeCopied.TreeType;
                     newTree.WaterDemand = treeToBeCopied.WaterDemand;
-                    newTree.ID = treeRingManager.Trees.Count.ToString();
+                    newTree.ID = treeRingManager.ManagedObjects.Count.ToString();
 
                     newTree.Location = new Autodesk.AutoCAD.Geometry.Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0);
                     newTree.AddLabel();
