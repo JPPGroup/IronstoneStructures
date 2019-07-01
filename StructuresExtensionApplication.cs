@@ -49,6 +49,7 @@ namespace Jpp.Ironstone.Structures
             rsb.ShowText = true;
             rsb.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New"));
             rsb.Items.Add(UIHelper.CreateButton("Copy Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_Copy"));
+            rsb.Items.Add(UIHelper.CreateButton("Add Hedge Row", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_Hedgerow_New"));
             column1.Items.Add(rsb);
 
             //Build the UI hierarchy
