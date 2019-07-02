@@ -1,299 +1,285 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Jpp.Ironstone.Core.ServiceInterfaces;
+using Jpp.Ironstone.Core.UI.Autocad;
 using Jpp.Ironstone.Structures.ObjectModel;
 using Jpp.Ironstone.Structures.ObjectModel.TreeRings;
+using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
 namespace Jpp.Ironstone.Structures
 {
     public class TreeRingCommands
     {
-        [CommandMethod("S_TreeRings_New")]
-        public static void NewTree()
+        [CommandMethod("S_Hedgerow_New")]
+        public static void NewHedgerow()
         {
-            StructuresExtensionApplication.Current.Logger.LogEvent(Event.Command, "S_TreeRings_New");
-
-            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database acCurDb = acDoc.Database;
-
-            using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+            try
             {
-                NHBCTree newTree = new NHBCTree();
-                newTree.Generate();
+                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(NewHedgerow));
 
-                //TODO: Add tree determination in here
-                PromptKeywordOptions pKeyOpts = new PromptKeywordOptions("");
-                pKeyOpts.Message = "\nExisting or Proposed ";
-                pKeyOpts.Keywords.Add("Existing");
-                pKeyOpts.Keywords.Add("Proposed");
-                pKeyOpts.AllowNone = false;
+                var acDoc = Application.DocumentManager.MdiActiveDocument;
+                var ed = acDoc.Editor;
+                var entResult = ed.PromptForEntity("\nSelect hedge row centre line: ", typeof(Polyline),"Only polylines allowed.");
+                if (!entResult.HasValue) return;
 
-                PromptResult pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                using (var acTrans = acDoc.TransactionManager.StartTransaction())
                 {
-                    acTrans.Abort();
-                    return;
-                }
+                    var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                    var newHedgeRow = BuildTreeOptions<HedgeRow>(treeRingManager);
 
-                switch (pKeyRes.StringResult)
-                {
-                    case "Existing":
-                        newTree.Phase = Phase.Existing;
-                        break;
-
-                    case "Proposed":
-                        newTree.Phase = Phase.Proposed;
-                        break;
-                }
-
-                pKeyOpts = new PromptKeywordOptions("");
-                pKeyOpts.Message = "\nTree Type ";
-                pKeyOpts.Keywords.Add("Deciduous");
-                pKeyOpts.Keywords.Add("Coniferous");
-                pKeyOpts.AllowNone = false;
-
-                pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
-                {
-                    acTrans.Abort();
-                    return;
-                }
-                if (pKeyRes.StringResult == "Deciduous")
-                {
-                    newTree.TreeType = TreeType.Deciduous;
-                }
-                else
-                {
-                    newTree.TreeType = TreeType.Coniferous;
-                }
-
-                pKeyOpts = new PromptKeywordOptions("");
-                pKeyOpts.Message = "\nWater deamnd ";
-                pKeyOpts.Keywords.Add("High");
-                pKeyOpts.Keywords.Add("Medium");
-                if (newTree.TreeType == TreeType.Deciduous)
-                {
-                    pKeyOpts.Keywords.Add("Low");
-                }
-
-                pKeyOpts.AllowNone = false;
-
-                pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
-                {
-                    acTrans.Abort();
-                    return;
-                }
-                Dictionary<string, int> speciesList = NHBCTree.DeciduousHigh;
-                switch (pKeyRes.StringResult)
-                {
-                    case "High":
-                        newTree.WaterDemand = WaterDemand.High;
-                        if (newTree.TreeType == TreeType.Deciduous)
-                        {
-                            speciesList = NHBCTree.DeciduousHigh;
-                        }
-                        else
-                        {
-                            speciesList = NHBCTree.ConiferousHigh;
-                        }
-
-                        break;
-
-                    case "Medium":
-                        newTree.WaterDemand = WaterDemand.Medium;
-                        if (newTree.TreeType == TreeType.Deciduous)
-                        {
-                            speciesList = NHBCTree.DeciduousMedium;
-                        }
-                        else
-                        {
-                            speciesList = NHBCTree.ConiferousMedium;
-                        }
-
-                        break;
-
-                    case "Low":
-                        newTree.WaterDemand = WaterDemand.Low;
-                        if (newTree.TreeType == TreeType.Deciduous)
-                        {
-                            speciesList = NHBCTree.DeciduousLow;
-                        }
-                        else
-                        {
-                            throw new ArgumentException(); //Doesnt exist!!
-                        }
-
-                        break;
-                }
-
-                pKeyOpts = new PromptKeywordOptions("");
-                pKeyOpts.Message = "\nSpecies ";
-                foreach (string s in speciesList.Keys)
-                {
-                    pKeyOpts.Keywords.Add(s);
-                }
-
-                pKeyOpts.AllowNone = false;
-                pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-                if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
-                {
-                    acTrans.Abort();
-                    return;
-                }
-                newTree.Species = pKeyRes.StringResult;
-
-                float maxHeight = (float) speciesList[newTree.Species];
-
-                PromptStringOptions pStrOptsPlot;
-                PromptResult pStrResPlot;
-                
-                if (newTree.Phase == Phase.Existing)
-                {
-                    pKeyOpts = new PromptKeywordOptions("");
-                    pKeyOpts.Message = "\nIs tree to be removed? ";
-                    pKeyOpts.Keywords.Add("Yes");
-                    pKeyOpts.Keywords.Add("No");
-                    pKeyOpts.Keywords.Default = "No";
-                    pKeyOpts.AllowNone = false;
-                    pKeyRes = acDoc.Editor.GetKeywords(pKeyOpts);
-
-                    if (pKeyRes.Status != PromptStatus.Keyword && pKeyRes.Status != PromptStatus.OK)
+                    if (newHedgeRow == null)
                     {
                         acTrans.Abort();
                         return;
                     }
 
-                    switch (pKeyRes.StringResult)
+                    newHedgeRow.BaseObject = entResult.Value;
+                    newHedgeRow.Generate();
+                    newHedgeRow.AddLabel();
+
+                    treeRingManager.AddTree(newHedgeRow);
+
+                    acTrans.Commit();
+                }
+            }
+            catch (System.Exception e)
+            {
+                StructuresExtensionApplication.Current.Logger.LogException(e);
+                throw;
+            }
+        }
+
+        [CommandMethod("S_TreeRings_New")]
+        public static void NewTree()
+        {
+            try
+            {
+                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(NewTree));
+
+                var acDoc = Application.DocumentManager.MdiActiveDocument;
+                var ed = acDoc.Editor;
+                using (var acTrans = acDoc.TransactionManager.StartTransaction())
+                {
+                    var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                    var newTree = BuildTreeOptions<Tree>(treeRingManager);
+
+                    if (newTree == null)
                     {
-                        case "Yes":
-                            pStrOptsPlot =
-                                new PromptStringOptions("\nEnter current tree height: ")
-                                {
-                                    AllowSpaces = false,
-                                    DefaultValue = maxHeight.ToString()
-                                };
-
-                            pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-                            if (pStrResPlot.Status != PromptStatus.OK)
-                            {
-                                acTrans.Abort();
-                                return;
-                            }
-
-                            float actualHeight = float.Parse(pStrResPlot.StringResult);
-
-                            if (actualHeight < maxHeight / 2)
-                            {
-                                newTree.Height = actualHeight;
-                            }
-                            else
-                            {
-                                newTree.Height = maxHeight;
-                            }
-                            break;
-
-                        case "No":
-                            newTree.Height = maxHeight;
-                            break;
+                        acTrans.Abort();
+                        return;
                     }
 
-                    
+                    var point = ed.PromptForPosition("\nClick to enter location: ");
+                    if (!point.HasValue)
+                    {
+                        acTrans.Abort();
+                        return;
+                    }
+
+                    newTree.Location = new Point3d(point.Value.X, point.Value.Y, 0);
+
+                    newTree.Generate();
+                    newTree.AddLabel();
+
+                    treeRingManager.AddTree(newTree);
+
+                    acTrans.Commit();
                 }
-                else
-                {
-                    newTree.Height = maxHeight;
-                }
-
-                //TreeRingManager treeRingManager = DrawingObjectManagerCollection.Current.Resolve<TreeRingManager>();
-                TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-
-                pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false, DefaultValue = treeRingManager.Trees.Count.ToString() };
-                pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-                if (pStrResPlot.Status != PromptStatus.OK)
-                {
-                    acTrans.Abort();
-                    return;
-                }
-                newTree.ID = pStrResPlot.StringResult;
-                
-                PromptPointOptions pPtOpts = new PromptPointOptions("\nClick to enter location: ");
-                PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
-                if (pPtRes.Status != PromptStatus.OK)
-                {
-                    acTrans.Abort();
-                    return;
-                }
-
-                newTree.Location = new Autodesk.AutoCAD.Geometry.Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0);
-                newTree.AddLabel();
-
-                treeRingManager.AddTree(newTree);
-
-                acTrans.Commit();
+            }
+            catch (System.Exception e)
+            {
+                StructuresExtensionApplication.Current.Logger.LogException(e);
+                throw;
             }
         }
 
         [CommandMethod("S_TreeRings_Copy")]
         public static void CopyTree()
         {
-            StructuresExtensionApplication.Current.Logger.LogEvent(Event.Command, "S_TreeRings_Copy");
-
-            Document acDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database acCurDb = acDoc.Database;
-
-            using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+            try
             {
-                PromptStringOptions pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false };
-                PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-                if (pStrResPlot.Status != PromptStatus.OK)
+                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(CopyTree));
+
+                Document acDoc = Application.DocumentManager.MdiActiveDocument;
+
+                using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
                 {
-                    acTrans.Abort();
-                    return;
+                    PromptStringOptions pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false };
+                    PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
+                    if (pStrResPlot.Status != PromptStatus.OK)
+                    {
+                        acTrans.Abort();
+                        return;
+                    }
+
+                    string id = pStrResPlot.StringResult;
+
+                    TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                    Tree treeToBeCopied = treeRingManager.ManagedObjects.FirstOrDefault(t => t.ID == id);
+                    if (treeToBeCopied == null)
+                    {
+                        StructuresExtensionApplication.Current.Logger.Entry($"No tree found matching ID {id}",
+                            Severity.Warning);
+                        acTrans.Abort();
+                        return;
+                    }
+
+                    PromptPointOptions pPtOpts = new PromptPointOptions("\nEnter location: ");
+                    PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                    while (pPtRes.Status == PromptStatus.OK)
+                    {
+                        Tree newTree = new Tree
+                        {
+                            Height = treeToBeCopied.Height,
+                            Phase = treeToBeCopied.Phase,
+                            Species = treeToBeCopied.Species,
+                            TreeType = treeToBeCopied.TreeType,
+                            WaterDemand = treeToBeCopied.WaterDemand,
+                            ID = treeRingManager.ManagedObjects.Count.ToString(),
+                            Location = new Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0)
+                        };
+
+                        newTree.AddLabel();
+
+                        treeRingManager.AddTree(newTree);
+
+                        acDoc.TransactionManager.QueueForGraphicsFlush();
+                        pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                    }
+
+                    acTrans.Commit();
                 }
-
-                string ID = pStrResPlot.StringResult;
-
-                TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                NHBCTree treeToBeCopied = treeRingManager.Trees.FirstOrDefault(t => t.ID == ID);
-                if (treeToBeCopied == null)
-                {
-                    StructuresExtensionApplication.Current.Logger.Entry($"No tree found matching ID {ID}",
-                        Severity.Warning);
-                    acTrans.Abort();
-                    return;
-                }
-
-                PromptPointOptions pPtOpts = new PromptPointOptions("\nEnter location: ");
-                PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
-                while (pPtRes.Status == PromptStatus.OK)
-                {
-                    NHBCTree newTree = new NHBCTree();
-                    newTree.Height = treeToBeCopied.Height;
-                    newTree.Phase = treeToBeCopied.Phase;
-                    newTree.Species = treeToBeCopied.Species;
-                    newTree.TreeType = treeToBeCopied.TreeType;
-                    newTree.WaterDemand = treeToBeCopied.WaterDemand;
-                    newTree.ID = treeRingManager.Trees.Count.ToString();
-
-                    newTree.Location = new Autodesk.AutoCAD.Geometry.Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0);
-                    newTree.AddLabel();
-
-                    treeRingManager.AddTree(newTree);
-
-                    acDoc.TransactionManager.QueueForGraphicsFlush();
-                    pPtRes = acDoc.Editor.GetPoint(pPtOpts);
-                }
-
-                acTrans.Commit();
             }
+            catch (System.Exception e)
+            {
+                StructuresExtensionApplication.Current.Logger.LogException(e);
+                throw;
+            }
+        }
+
+        private static T BuildTreeOptions<T>(TreeRingManager manager) where T : Tree, new()
+        {
+            var phase = GetTreePhase();
+            if (!phase.HasValue) return null;
+
+            var type = GetTreeType();
+            if (!type.HasValue) return null;
+
+            var waterDemand = GetTreeWaterDemand(type.Value);
+            if (!waterDemand.HasValue) return null;
+
+            var speciesList = GetSpeciesList(waterDemand.Value, type.Value);
+            if(!speciesList.Any()) return null;
+
+            var species = GetTreeSpecies(speciesList);
+            if(string.IsNullOrEmpty(species)) return null;
+
+            var maxSpeciesHeight = (float)speciesList[species];
+            var height = GetTreeHeight(phase.Value, maxSpeciesHeight);
+            if (!height.HasValue) return null;
+
+            var id = GetTreeId(manager);
+            if (string.IsNullOrEmpty(id)) return null;
+
+            return new T
+            {
+                Phase = phase.Value,
+                TreeType = type.Value,
+                WaterDemand = waterDemand.Value,
+                Species = species,
+                Height = height.Value,
+                ID = id
+            };
+        }
+
+        private static Phase? GetTreePhase()
+        {
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var result = ed.PromptForKeywords("\nExisting or Proposed: ", Enum.GetNames(typeof(Phase)).ToArray());
+
+            if (Enum.TryParse(result, out Phase phase)) return phase;
+
+            return null;
+        }
+
+        private static TreeType? GetTreeType()
+        {
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var result = ed.PromptForKeywords("\nTree type: ", Enum.GetNames(typeof(TreeType)).ToArray());
+
+            if (Enum.TryParse(result, out TreeType type)) return type;
+
+            return null;
+        }
+
+        private static WaterDemand? GetTreeWaterDemand(TreeType type)
+        {
+            var k = Enum.GetNames(typeof(WaterDemand)).ToList();
+            if (type != TreeType.Deciduous) k.Remove(WaterDemand.Low.ToString());
+
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var result = ed.PromptForKeywords("\nWater demand: ", k.ToArray());
+
+            if (Enum.TryParse(result, out WaterDemand waterDemand)) return waterDemand;
+
+            return null;
+        }
+
+        private static Dictionary<string, int> GetSpeciesList(WaterDemand waterDemand, TreeType type)
+        {
+            switch (waterDemand)
+            {
+                case WaterDemand.High when type == TreeType.Deciduous:
+                    return Tree.DeciduousHigh;
+                case WaterDemand.High when type == TreeType.Coniferous:
+                    return Tree.ConiferousHigh;
+                case WaterDemand.Medium when type == TreeType.Deciduous:
+                    return Tree.DeciduousMedium;
+                case WaterDemand.Medium when type == TreeType.Coniferous:
+                    return Tree.ConiferousMedium;
+                case WaterDemand.Low when type == TreeType.Deciduous:
+                    return Tree.DeciduousLow;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static string GetTreeSpecies(Dictionary<string, int> speciesList)
+        {
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var result = ed.PromptForKeywords("\nSpecies: ", speciesList.Keys.ToArray());
+
+            return result;
+        }
+
+        private static float? GetTreeHeight(Phase phase, float maxSpeciesHeight)
+        {
+            if (phase != Phase.Existing) return maxSpeciesHeight;
+
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var keyResult = ed.PromptForKeywords("\nIs tree to be removed? ", new[] { "Yes", "No" }, "No");
+            if (keyResult != "Yes") return maxSpeciesHeight;
+
+            var strResult = ed.PromptForString("\nEnter current tree height: ", maxSpeciesHeight.ToString(CultureInfo.InvariantCulture));
+
+            if (string.IsNullOrWhiteSpace(strResult)) return null;
+
+            var actualHeight = float.Parse(strResult);
+
+            return actualHeight < maxSpeciesHeight / 2 ? actualHeight : maxSpeciesHeight;
+        }
+
+        private static string GetTreeId(TreeRingManager manager)
+        {
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            return ed.PromptForString("\nEnter tree ID: ", manager.ManagedObjects.Count.ToString());
         }
     }
 }
