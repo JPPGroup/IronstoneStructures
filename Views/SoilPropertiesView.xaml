@@ -3,23 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Jpp.Ironstone.Structures.Views"
-             xmlns:structures="clr-namespace:Jpp.Ironstone.Structures.ObjectModel;assembly=IronstoneStructuresObjectModel"
              xmlns:converters="clr-namespace:Autodesk.Windows.Converters;assembly=AdUiPalettes"
              xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"           
              xmlns:viewModels="clr-namespace:Jpp.Ironstone.Structures.ViewModels"
+             xmlns:views="clr-namespace:Jpp.Ironstone.Core.UI.Views;assembly=IronstoneCoreUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <ui:HostedUserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../AutocadStyleResourceDictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </ui:HostedUserControl.Resources>
-    <Grid>
-        <GroupBox Header="Cohesive" Margin="10,37,10,0" Height="128" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
+    <StackPanel>
+        <CheckBox Margin="10" Content="Granular Soil" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Granular}"/>
+        <GroupBox Margin="10" Header="Cohesive" Height="128" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
             <StackPanel>
                 <Label>Soil Shrinkability</Label>
                 <ComboBox ItemsSource="{Binding ShrinkageTypes}" SelectedItem="{Binding Shrinkage}"/>
@@ -35,7 +32,22 @@
                 </TextBox>
             </StackPanel>
         </GroupBox>
-        <CheckBox Content="Granular Soil" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding Granular}"/>
-    </Grid>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Existing Surface" Grid.Column="0"/>
+            <views:SurfaceSelect DataContext="{Binding ExistingSurfaceSelector}" Grid.Column="1"/>
+        </Grid>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Proposed Surface" Grid.Column="0"/>
+            <views:SurfaceSelect DataContext="{Binding ProposedSurfaceSelector}" Grid.Column="1"/>
+        </Grid>
+    </StackPanel>
 </ui:HostedUserControl>
 

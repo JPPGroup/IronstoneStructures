@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
+using Jpp.Ironstone.Core.UI.ViewModels;
 using Jpp.Ironstone.Structures.ObjectModel;
 
 namespace Jpp.Ironstone.Structures.ViewModels
@@ -16,6 +14,10 @@ namespace Jpp.Ironstone.Structures.ViewModels
         private SoilProperties Model;
 
         public string[] ShrinkageTypes => Enum.GetNames(typeof(Shrinkage));
+
+        public SurfaceSelectViewModel ExistingSurfaceSelector { get; set; }
+
+        public SurfaceSelectViewModel ProposedSurfaceSelector { get; set; }
 
         public Shrinkage Shrinkage
         {
@@ -38,6 +40,19 @@ namespace Jpp.Ironstone.Structures.ViewModels
         public SoilPropertiesViewModel()
         {
             Model = DataService.Current.GetStore<StructureDocumentStore>(Application.DocumentManager.MdiActiveDocument.Name).SoilProperties;
+            ExistingSurfaceSelector = new SurfaceSelectViewModel();
+            ExistingSurfaceSelector.SelectedSurfaceName = Model.ExistingGroundSurfaceName;
+            ExistingSurfaceSelector.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            {
+                Model.ExistingGroundSurfaceName = ExistingSurfaceSelector.SelectedSurfaceName;
+            };
+            ProposedSurfaceSelector = new SurfaceSelectViewModel();
+            ProposedSurfaceSelector.SelectedSurfaceName = ProposedSurfaceSelector.SelectedSurfaceName;
+            ProposedSurfaceSelector.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            {
+                Model.ProposedGroundSurfaceName = ProposedSurfaceSelector.SelectedSurfaceName;
+
+            };
         }
     }
 

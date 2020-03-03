@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structures", "Structures.csproj", "{F8266A40-E8C4-4887-95E6-D4D06E9CA440}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructuresObjectModel", "..\ironstone-object-model\Structures\StructuresObjectModel.csproj", "{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F8266A40-E8C4-4887-95E6-D4D06E9CA440}.Debug|x64.Build.0 = Debug|x64
 		{F8266A40-E8C4-4887-95E6-D4D06E9CA440}.Release|x64.ActiveCfg = Release|x64
 		{F8266A40-E8C4-4887-95E6-D4D06E9CA440}.Release|x64.Build.0 = Release|x64
+		{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}.Debug|x64.ActiveCfg = Debug|x64
+		{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}.Debug|x64.Build.0 = Debug|x64
+		{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}.Release|x64.ActiveCfg = Release|x64
+		{ADA84B10-90AB-4AD2-9F7C-FDFD362AC7CA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
