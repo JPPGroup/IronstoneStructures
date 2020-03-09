@@ -7,11 +7,14 @@
              xmlns:ui="clr-namespace:Jpp.Ironstone.Core.UI;assembly=IronstoneCoreUI"           
              xmlns:viewModels="clr-namespace:Jpp.Ironstone.Structures.ViewModels"
              xmlns:views="clr-namespace:Jpp.Ironstone.Core.UI.Views;assembly=IronstoneCoreUI"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:structures="clr-namespace:Jpp.Ironstone.Structures"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <ui:HostedUserControl.Resources>
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <structures:ColorConverter x:Key="ColorConverter" />
         </ResourceDictionary>
     </ui:HostedUserControl.Resources>
     <StackPanel>
@@ -48,6 +51,30 @@
             <Label Content="Proposed Surface" Grid.Column="0"/>
             <views:SurfaceSelect DataContext="{Binding ProposedSurfaceSelector}" Grid.Column="1"/>
         </Grid>
+        <DataGrid ItemsSource="{Binding DepthBands}" CanUserAddRows="True" CanUserSortColumns="True" CanUserDeleteRows="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Start Depth" Binding="{Binding StartDepth}" Width="100"/>
+                <DataGridTextColumn Header="End Depth" Binding="{Binding EndDepth}" Width="100"/>
+                <DataGridTemplateColumn Header="Colour" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:ColorPicker x:Name="ColorPicker"  SelectedColor="{Binding Color, Converter={StaticResource ColorConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                <xctk:ColorPicker.Style>
+                                    <Style TargetType="xctk:ColorPicker">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=DataContext,RelativeSource={RelativeSource AncestorType=DataGridRow}}" 
+                                                         Value="{x:Static CollectionView.NewItemPlaceholder}">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </xctk:ColorPicker.Style>
+                            </xctk:ColorPicker>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </ui:HostedUserControl>
 

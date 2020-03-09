@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI.ViewModels;
@@ -37,6 +39,11 @@ namespace Jpp.Ironstone.Structures.ViewModels
             set { Model.TargetStepSize = value; }
         }
 
+        public ObservableCollection<DepthBand> DepthBands
+        {
+            get { return Model.DepthBands; }
+        }
+
         public SoilPropertiesViewModel()
         {
             Model = DataService.Current.GetStore<StructureDocumentStore>(Application.DocumentManager.MdiActiveDocument.Name).SoilProperties;
@@ -51,7 +58,6 @@ namespace Jpp.Ironstone.Structures.ViewModels
             ProposedSurfaceSelector.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
                 Model.ProposedGroundSurfaceName = ProposedSurfaceSelector.SelectedSurfaceName;
-
             };
         }
     }

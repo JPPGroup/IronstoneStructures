@@ -1,5 +1,6 @@
 ﻿using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Structures.ViewModels;
+using Xceed.Wpf.Toolkit;
 
 namespace Jpp.Ironstone.Structures.Views
 {

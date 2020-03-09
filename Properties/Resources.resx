@@ -121,11 +121,17 @@
   <data name="Earth_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Earth-Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ExtensionApplication_UI_HousingPanelTitle" xml:space="preserve">
+    <value>Structural</value>
+  </data>
   <data name="ExtensionApplication_UI_PanelTitle" xml:space="preserve">
     <value>Structures</value>
   </data>
   <data name="ExtensionApplication_UI_SoilMenuButton" xml:space="preserve">
     <value>Ground Conditions</value>
+  </data>
+  <data name="ExtensionApplication_UI_ToggleFoundations" xml:space="preserve">
+    <value>Enable Foundation</value>
   </data>
   <data name="Tree_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tree-Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

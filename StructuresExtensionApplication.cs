@@ -1,10 +1,16 @@
-﻿using Autodesk.AutoCAD.Runtime;
+﻿using System;
+using System.IO;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil.DatabaseServices;
 using Autodesk.Windows;
 using Jpp.Ironstone.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
+using Jpp.Ironstone.Housing.ObjectModel;
+using Jpp.Ironstone.Structures.Properties;
 using Jpp.Ironstone.Structures.Views;
 using Unity;
+using Xceed.Wpf.Toolkit;
 using RibbonControl = Autodesk.Windows.RibbonControl;
 using RibbonPanelSource = Autodesk.Windows.RibbonPanelSource;
 using RibbonRowPanel = Autodesk.Windows.RibbonRowPanel;
@@ -27,6 +33,10 @@ namespace Jpp.Ironstone.Structures
 
         public void CreateUI()
         {
+            // These lines are required to force assembly to be present in bin directory and resolve correctly.
+            ColorPicker cp = new ColorPicker();
+            cp.AdvancedTabHeader = "Dummy";
+
             RibbonControl rc = Autodesk.Windows.ComponentManager.Ribbon;
             RibbonTab primaryTab = rc.FindTab(Jpp.Ironstone.Core.Constants.IRONSTONE_TAB_ID);
 
@@ -52,6 +62,24 @@ namespace Jpp.Ironstone.Structures
             Panel.Source = source;
 
             primaryTab.Panels.Add(Panel);
+
+            SharedUIHelper.StructuresAvailable = true;
+            SharedUIHelper.CreateSharedElements();
+            RibbonPanel HousinhPanel = new RibbonPanel();
+            RibbonPanelSource housingSource = new RibbonPanelSource();
+            source.Title = Properties.Resources.ExtensionApplication_UI_PanelTitle;
+
+            RibbonRowPanel hcolumn1 = new RibbonRowPanel();
+            hcolumn1.IsTopJustified = true;
+            // TODO: Change icon
+            var cmdConceptualPlotEstimateFounds = UIHelper.GetCommandGlobalName(typeof(ConceptualPlotCommands), nameof(ConceptualPlotCommands.EstimateFounds));
+            var btnConceptualPlotEstimateFounds = UIHelper.CreateButton(Resources.ExtensionApplication_UI_ToggleFoundations, Resources.Earth_Small, RibbonItemSize.Standard, cmdConceptualPlotEstimateFounds);
+            hcolumn1.Items.Add(btnConceptualPlotEstimateFounds);
+
+            housingSource.Items.Add(hcolumn1);
+            HousinhPanel.Source = housingSource;
+            SharedUIHelper.HousingConceptTab.Panels.Add(HousinhPanel);
+
         }
 
         public void Initialize()
