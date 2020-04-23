@@ -22,7 +22,7 @@ namespace Jpp.Ironstone.Structures.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Jpp.Ironstone.Structures.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,56 @@ namespace Jpp.Ironstone.Structures.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Structural Beam.
+        /// </summary>
+        public static string AppraisalCommands_UI_BeamButton {
+            get {
+                return ResourceManager.GetString("AppraisalCommands_UI_BeamButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structural Appraisal.
+        /// </summary>
+        public static string AppraisalCommands_UI_PanelTitle {
+            get {
+                return ResourceManager.GetString("AppraisalCommands_UI_PanelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loadbearing Wall.
+        /// </summary>
+        public static string AppraisalCommands_UI_WallButton {
+            get {
+                return ResourceManager.GetString("AppraisalCommands_UI_WallButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Earth_Small {
+        public static System.Drawing.Bitmap Beam_Small {
+            get {
+                object obj = ResourceManager.GetObject("Beam_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Brick_Small {
+            get {
+                object obj = ResourceManager.GetObject("Brick_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Earth_Small {
             get {
                 object obj = ResourceManager.GetObject("Earth_Small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +120,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Structural.
         /// </summary>
-        internal static string ExtensionApplication_UI_HousingPanelTitle {
+        public static string ExtensionApplication_UI_HousingPanelTitle {
             get {
                 return ResourceManager.GetString("ExtensionApplication_UI_HousingPanelTitle", resourceCulture);
             }
@@ -82,7 +129,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Structures.
         /// </summary>
-        internal static string ExtensionApplication_UI_PanelTitle {
+        public static string ExtensionApplication_UI_PanelTitle {
             get {
                 return ResourceManager.GetString("ExtensionApplication_UI_PanelTitle", resourceCulture);
             }
@@ -91,7 +138,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Ground Conditions.
         /// </summary>
-        internal static string ExtensionApplication_UI_SoilMenuButton {
+        public static string ExtensionApplication_UI_SoilMenuButton {
             get {
                 return ResourceManager.GetString("ExtensionApplication_UI_SoilMenuButton", resourceCulture);
             }
@@ -100,7 +147,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Enable Foundation.
         /// </summary>
-        internal static string ExtensionApplication_UI_ToggleFoundations {
+        public static string ExtensionApplication_UI_ToggleFoundations {
             get {
                 return ResourceManager.GetString("ExtensionApplication_UI_ToggleFoundations", resourceCulture);
             }
@@ -109,7 +156,7 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tree_Small {
+        public static System.Drawing.Bitmap Tree_Small {
             get {
                 object obj = ResourceManager.GetObject("Tree_Small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

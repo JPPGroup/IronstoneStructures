@@ -40,34 +40,13 @@ namespace Jpp.Ironstone.Structures
             RibbonControl rc = Autodesk.Windows.ComponentManager.Ribbon;
             RibbonTab primaryTab = rc.FindTab(Jpp.Ironstone.Core.Constants.IRONSTONE_TAB_ID);
 
-            RibbonPanel Panel = new RibbonPanel();
-            RibbonPanelSource source = new RibbonPanelSource();
-            source.Title = Properties.Resources.ExtensionApplication_UI_PanelTitle;
-
-            RibbonRowPanel column1 = new RibbonRowPanel();
-            column1.IsTopJustified = true;
-            column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
-            column1.Items.Add(new RibbonRowBreak());
-
-            RibbonSplitButton rsb = new RibbonSplitButton();
-            rsb.ShowText = true;
-            rsb.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New"));
-            rsb.Items.Add(UIHelper.CreateButton("Copy Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_Copy"));
-            rsb.Items.Add(UIHelper.CreateButton("Add Hedge Row", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_Hedgerow_New"));
-            column1.Items.Add(rsb);
-
-            //Build the UI hierarchy
-            source.Items.Add(column1);
-            
-            Panel.Source = source;
-
-            primaryTab.Panels.Add(Panel);
+            primaryTab.Panels.Add(TreeRingCommands.BuildUI());
+            primaryTab.Panels.Add(AppraisalCommands.BuildUI());
 
             SharedUIHelper.StructuresAvailable = true;
             SharedUIHelper.CreateSharedElements();
             RibbonPanel HousinhPanel = new RibbonPanel();
             RibbonPanelSource housingSource = new RibbonPanelSource();
-            source.Title = Properties.Resources.ExtensionApplication_UI_PanelTitle;
 
             RibbonRowPanel hcolumn1 = new RibbonRowPanel();
             hcolumn1.IsTopJustified = true;
@@ -79,7 +58,6 @@ namespace Jpp.Ironstone.Structures
             housingSource.Items.Add(hcolumn1);
             HousinhPanel.Source = housingSource;
             SharedUIHelper.HousingConceptTab.Panels.Add(HousinhPanel);
-
         }
 
         public void Initialize()

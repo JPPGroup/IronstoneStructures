@@ -7,16 +7,43 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.Windows;
 using Jpp.Ironstone.Core.ServiceInterfaces;
+using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Core.UI.Autocad;
 using Jpp.Ironstone.Structures.ObjectModel;
 using Jpp.Ironstone.Structures.ObjectModel.TreeRings;
+using Jpp.Ironstone.Structures.Views;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
 namespace Jpp.Ironstone.Structures
 {
     public class TreeRingCommands
     {
+        public static RibbonPanel BuildUI()
+        {
+            RibbonPanel Panel = new RibbonPanel();
+            RibbonPanelSource source = new RibbonPanelSource();
+            source.Title = Properties.Resources.ExtensionApplication_UI_PanelTitle;
+
+            RibbonRowPanel column1 = new RibbonRowPanel();
+            column1.IsTopJustified = true;
+            column1.Items.Add(UIHelper.CreateWindowToggle(Properties.Resources.ExtensionApplication_UI_SoilMenuButton, Properties.Resources.Earth_Small, RibbonItemSize.Standard, new SoilPropertiesView(), "4c7eae1d-ce9f-4a7a-a397-584aced7983c"));
+            column1.Items.Add(new RibbonRowBreak());
+
+            RibbonSplitButton rsb = new RibbonSplitButton();
+            rsb.ShowText = true;
+            rsb.Items.Add(UIHelper.CreateButton("Add Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_New"));
+            rsb.Items.Add(UIHelper.CreateButton("Copy Tree", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_TreeRings_Copy"));
+            rsb.Items.Add(UIHelper.CreateButton("Add Hedge Row", Properties.Resources.Tree_Small, RibbonItemSize.Standard, "S_Hedgerow_New"));
+            column1.Items.Add(rsb);
+
+            //Build the UI hierarchy
+            source.Items.Add(column1);
+            Panel.Source = source;
+            return Panel;
+        }
+
         [CommandMethod("S_Hedgerow_New")]
         public static void NewHedgerow()
         {
