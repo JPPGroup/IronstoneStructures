@@ -19,6 +19,14 @@
     </ui:HostedUserControl.Resources>
     <StackPanel>
         <CheckBox Margin="10" Content="Granular Soil" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Granular}"/>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Allowable Ground Bearing Pressure (kN)" Grid.Column="0"/>
+            <TextBox Text="{Binding GroundBearingPressure, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+        </Grid>
         <GroupBox Margin="10" Header="Cohesive" Height="128" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
             <StackPanel>
                 <Label>Soil Shrinkability</Label>

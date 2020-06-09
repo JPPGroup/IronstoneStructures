@@ -39,6 +39,12 @@ namespace Jpp.Ironstone.Structures.ViewModels
             set { Model.TargetStepSize = value; }
         }
 
+        public double GroundBearingPressure
+        {
+            get { return Model.GroundBearingPressure; }
+            set { Model.GroundBearingPressure = value; }
+        }
+
         public ObservableCollection<DepthBand> DepthBands
         {
             get { return Model.DepthBands; }

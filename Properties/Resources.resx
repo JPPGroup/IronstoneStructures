@@ -133,6 +133,15 @@
   <data name="Brick_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Brick-Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Centreline_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Centreline_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DetailPlotCommands_UI_AddCentrelineButton" xml:space="preserve">
+    <value>Add Wall Centreline</value>
+  </data>
+  <data name="DetailPlotCommands_UI_MasterPanelTitle" xml:space="preserve">
+    <value>Structural</value>
+  </data>
   <data name="Earth_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Earth-Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

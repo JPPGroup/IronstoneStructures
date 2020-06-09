@@ -7,8 +7,8 @@ using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Core.UI.Autocad;
 using Jpp.Ironstone.Structures.ObjectModel;
-using Jpp.Ironstone.Structures.ObjectModel.Appraisal;
-using Jpp.Ironstone.Structures.ObjectModel.Appraisal.Elements;
+/*using Jpp.Ironstone.Structures.ObjectModel.Appraisal;
+using Jpp.Ironstone.Structures.ObjectModel.Appraisal.Elements;*/
 
 namespace Jpp.Ironstone.Structures
 {
@@ -42,7 +42,7 @@ namespace Jpp.Ironstone.Structures
             var ed = acDoc.Editor;
             using (var acTrans = acDoc.TransactionManager.StartTransaction())
             {
-                StructuralElementManager manager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<StructuralElementManager>();
+                //StructuralElementManager manager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<StructuralElementManager>();
 
                 Point3d? startPoint = ed.PromptForPosition("\nClick to enter start location: ");
                 if (!startPoint.HasValue)
@@ -60,8 +60,8 @@ namespace Jpp.Ironstone.Structures
 
                 // TODO: Handle third dimension
 
-                StructuralBeam beam = StructuralBeam.Create(acDoc.Database, new Point2d(startPoint.Value.X, startPoint.Value.Y), new Point2d(endPoint.Value.X, endPoint.Value.Y));
-                manager.Add(beam);
+                //StructuralBeam beam = StructuralBeam.Create(acDoc.Database, new Point2d(startPoint.Value.X, startPoint.Value.Y), new Point2d(endPoint.Value.X, endPoint.Value.Y));
+                //manager.Add(beam);
             }
         }
 

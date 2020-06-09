@@ -1,20 +1,15 @@
-﻿using System;
-using System.IO;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.Civil.DatabaseServices;
+﻿using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 using Jpp.Ironstone.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Housing.ObjectModel;
 using Jpp.Ironstone.Structures.Properties;
-using Jpp.Ironstone.Structures.Views;
 using Unity;
 using Xceed.Wpf.Toolkit;
 using RibbonControl = Autodesk.Windows.RibbonControl;
 using RibbonPanelSource = Autodesk.Windows.RibbonPanelSource;
 using RibbonRowPanel = Autodesk.Windows.RibbonRowPanel;
-using RibbonSplitButton = Autodesk.Windows.RibbonSplitButton;
 
 [assembly: ExtensionApplication(typeof(Jpp.Ironstone.Structures.StructuresExtensionApplication))]
 
@@ -42,9 +37,11 @@ namespace Jpp.Ironstone.Structures
 
             primaryTab.Panels.Add(TreeRingCommands.BuildUI());
             primaryTab.Panels.Add(AppraisalCommands.BuildUI());
-
+            
             SharedUIHelper.StructuresAvailable = true;
             SharedUIHelper.CreateSharedElements();
+            SharedUIHelper.MasterCreationContextTab.Panels.Add(DetailPlotCommands.BuildUI());
+
             RibbonPanel HousinhPanel = new RibbonPanel();
             RibbonPanelSource housingSource = new RibbonPanelSource();
 

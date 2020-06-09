@@ -110,6 +110,34 @@ namespace Jpp.Ironstone.Structures.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Centreline_Small {
+            get {
+                object obj = ResourceManager.GetObject("Centreline_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Wall Centreline.
+        /// </summary>
+        public static string DetailPlotCommands_UI_AddCentrelineButton {
+            get {
+                return ResourceManager.GetString("DetailPlotCommands_UI_AddCentrelineButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structural.
+        /// </summary>
+        public static string DetailPlotCommands_UI_MasterPanelTitle {
+            get {
+                return ResourceManager.GetString("DetailPlotCommands_UI_MasterPanelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Earth_Small {
             get {
                 object obj = ResourceManager.GetObject("Earth_Small", resourceCulture);
