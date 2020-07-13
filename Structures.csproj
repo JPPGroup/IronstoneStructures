@@ -59,15 +59,15 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition=" $(Configuration.Contains('Local')) ">
-    <ProjectReference Include="..\ironstone-core\Ironstone Core\Ironstone Core.csproj" />
-    <ProjectReference Include="..\ironstone-core\Ironstone Core UI\Ironstone Core UI.csproj" />    	
+    <ProjectReference Include="..\IronstoneCore\IronstoneCore\IronstoneCore.csproj" />
+    <ProjectReference Include="..\IronstoneCore\IronstoneCoreUI\IronstoneCoreUI.csproj" />    	
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\SoilPropertiesView.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ironstone-object-model\Housing\HousingObjectModel.csproj" />
-    <ProjectReference Include="..\ironstone-object-model\Structures\StructuresObjectModel.csproj" />
+    <ProjectReference Include="..\IronstoneObjectModel\Housing\HousingObjectModel.csproj" />
+    <ProjectReference Include="..\IronstoneObjectModel\Structures\StructuresObjectModel.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
