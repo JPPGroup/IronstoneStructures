@@ -222,7 +222,8 @@ namespace Jpp.Ironstone.Structures
                 WaterDemand = waterDemand.Value,
                 Species = species,
                 Height = height.Value,
-                ID = id
+                ID = id,
+                ExceedsNHBC = height > maxSpeciesHeight
             };
         }
 
@@ -286,6 +287,7 @@ namespace Jpp.Ironstone.Structures
             return result;
         }
 
+        //TODO: A test case is required  for when this is moved to design calcs
         private static float? GetTreeHeight(Phase phase, float maxSpeciesHeight)
         {
             if (phase != Phase.Existing) return maxSpeciesHeight;
@@ -299,6 +301,11 @@ namespace Jpp.Ironstone.Structures
             if (string.IsNullOrWhiteSpace(strResult)) return null;
 
             var actualHeight = float.Parse(strResult);
+
+            if (actualHeight > maxSpeciesHeight)
+            {
+                return actualHeight;
+            }
 
             return actualHeight < maxSpeciesHeight / 2 ? actualHeight : maxSpeciesHeight;
         }
