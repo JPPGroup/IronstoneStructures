@@ -27,7 +27,7 @@
             <Label Content="Allowable Ground Bearing Pressure (kN)" Grid.Column="0"/>
             <TextBox Text="{Binding GroundBearingPressure, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
         </Grid>
-        <GroupBox Margin="10" Header="Cohesive" Height="128" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
+        <GroupBox Margin="10" Header="Cohesive" VerticalAlignment="Top" IsEnabled="{Binding Granular, Converter={StaticResource InverseBooleanConverter}}">
             <StackPanel>
                 <Label>Soil Shrinkability</Label>
                 <ComboBox ItemsSource="{Binding ShrinkageTypes}" SelectedItem="{Binding Shrinkage}"/>
@@ -41,6 +41,14 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Margin="10" Content="Climate Reduction" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding EnableClimateReduction}" Grid.Column="0"/>
+                  <TextBox Text="{Binding ClimateReduction, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Height="24" IsEnabled="{Binding EnableClimateReduction}"/>
+                </Grid>
             </StackPanel>
         </GroupBox>
         <Grid Margin="5">

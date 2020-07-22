@@ -45,6 +45,18 @@ namespace Jpp.Ironstone.Structures.ViewModels
             set { Model.GroundBearingPressure = value; }
         }
 
+        public bool EnableClimateReduction
+        {
+            get { return Model.EnableClimateReduction; }
+            set { Model.EnableClimateReduction = value; }
+        }
+
+        public double ClimateReduction
+        {
+            get { return Model.ClimateReduction; }
+            set { Model.ClimateReduction = value; }
+        }
+
         public ObservableCollection<DepthBand> DepthBands
         {
             get { return Model.DepthBands; }
