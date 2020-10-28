@@ -1,3 +1,0 @@
-Ironstone Core	../ironstone-core/Ironstone%20Core/Ironstone%20Core.csproj	packages/Jpp.Ironstone.Core.0.4.0-deva/lib/net472/IronstoneCore.dll
-Ironstone Core UI	../ironstone-core/Ironstone%20Core%20UI/Ironstone%20Core%20UI.csproj	packages/Jpp.Ironstone.Core.UI.0.4.0-deva/lib/net472/IronstoneCoreUI.dll
-StructuresObjectModel	../ironstone-object-model/Structures/StructuresObjectModel.csproj	packages/Jpp.Ironstone.Structures.ObjectModel.0.3.0/lib/net472/IronstoneStructuresObjectModel.dll
