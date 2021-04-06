@@ -192,6 +192,39 @@ namespace Jpp.Ironstone.Structures
             }
         }
 
+        //TODO: Unit test
+        [CommandMethod("idtreering")]
+        public static void RingId()
+        {
+            try
+            {
+                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(CopyTree));
+                Document acDoc = Application.DocumentManager.MdiActiveDocument;
+
+                PromptEntityResult per = acDoc.Editor.GetEntity("Please select tree ring:");
+
+                using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+                {
+                    TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                    TreeRing matchedRing = treeRingManager.RingsCollection.Values.FirstOrDefault(t => t.BaseObject == per.ObjectId);
+
+                    if (matchedRing == null)
+                    {
+                        acDoc.Editor.WriteMessage("Selected object is not a tree ring\n");
+                    }
+                    else
+                    {
+                        acDoc.Editor.WriteMessage($"Tree ring of depth {matchedRing.Depth}\n");
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                StructuresExtensionApplication.Current.Logger.LogException(e);
+                throw;
+            }
+        }
+
         private static T BuildTreeOptions<T>(TreeRingManager manager) where T : Tree, new()
         {
             T newT = new T();
