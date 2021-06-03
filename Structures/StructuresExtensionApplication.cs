@@ -1,11 +1,11 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
 using Jpp.Ironstone.Core;
-using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Housing.ObjectModel;
 using Jpp.Ironstone.Structures.Properties;
-using Unity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Xceed.Wpf.Toolkit;
 using RibbonControl = Autodesk.Windows.RibbonControl;
 using RibbonPanelSource = Autodesk.Windows.RibbonPanelSource;
@@ -17,7 +17,7 @@ namespace Jpp.Ironstone.Structures
 {
     class StructuresExtensionApplication : IIronstoneExtensionApplication
     {
-        public ILogger Logger { get; set; }
+        public ILogger<StructuresExtensionApplication> Logger { get; set; }
 
         public static StructuresExtensionApplication Current
         {
@@ -33,7 +33,7 @@ namespace Jpp.Ironstone.Structures
             cp.AdvancedTabHeader = "Dummy";
 
             RibbonControl rc = Autodesk.Windows.ComponentManager.Ribbon;
-            RibbonTab primaryTab = rc.FindTab(Jpp.Ironstone.Core.Constants.IRONSTONE_TAB_ID);
+            RibbonTab primaryTab = rc.FindTab(Jpp.Ironstone.Core.Constants.IronstoneTabId);
 
             primaryTab.Panels.Add(TreeRingCommands.BuildUI());
             primaryTab.Panels.Add(AppraisalCommands.BuildUI());
@@ -63,14 +63,18 @@ namespace Jpp.Ironstone.Structures
             CoreExtensionApplication._current.RegisterExtension(this);
         }
 
-        public void InjectContainer(IUnityContainer container)
-        {
-            Logger = container.Resolve<ILogger>();
-        }
-
         public void Terminate()
         {
 
+        }
+
+        public void RegisterServices(IServiceCollection container)
+        {
+        }
+
+        public void InjectContainer(System.IServiceProvider provider)
+        {
+            Logger = provider.GetRequiredService<ILogger<StructuresExtensionApplication>>();
         }
     }
 }

@@ -7,7 +7,8 @@ using Jpp.Ironstone.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Housing.ObjectModel;
 using Jpp.Ironstone.Housing.ObjectModel.Concept;
-using Unity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Jpp.Ironstone.Structures
 {
@@ -22,7 +23,7 @@ namespace Jpp.Ironstone.Structures
             Database database = document.Database;
             PromptSelectionResult psr = document.Editor.SelectImplied();
 
-            ILogger logger = CoreExtensionApplication._current.Container.Resolve<ILogger>();
+            ILogger<StructuresExtensionApplication> logger = CoreExtensionApplication._current.Container.GetRequiredService<ILogger<StructuresExtensionApplication>>();
 
             if (psr.Status == PromptStatus.OK)
             {
@@ -42,7 +43,7 @@ namespace Jpp.Ironstone.Structures
                         }
                         else
                         {
-                            logger.Entry("Selected object is not a conceptual plot.", Severity.Warning);
+                            logger.LogWarning("Selected object is not a conceptual plot.");
                         }
                     }
 

@@ -8,12 +8,14 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Windows;
+using Jpp.Ironstone.Core;
 using Jpp.Ironstone.Core.ServiceInterfaces;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Core.UI.Autocad;
 using Jpp.Ironstone.Structures.ObjectModel;
 using Jpp.Ironstone.Structures.ObjectModel.TreeRings;
 using Jpp.Ironstone.Structures.Views;
+using Microsoft.Extensions.Logging;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
 namespace Jpp.Ironstone.Structures
@@ -45,183 +47,150 @@ namespace Jpp.Ironstone.Structures
         }
 
         [CommandMethod("S_Hedgerow_New")]
+        [IronstoneCommand]
         public static void NewHedgerow()
         {
-            try
+            var acDoc = Application.DocumentManager.MdiActiveDocument;
+            var ed = acDoc.Editor;
+            var entResult = ed.PromptForEntity("\nSelect hedge row centre line: ", typeof(Polyline), "Only polylines allowed.");
+            if (!entResult.HasValue) return;
+
+            using (var acTrans = acDoc.TransactionManager.StartTransaction())
             {
-                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(NewHedgerow));
+                var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                var newHedgeRow = BuildTreeOptions<HedgeRow>(treeRingManager);
 
-                var acDoc = Application.DocumentManager.MdiActiveDocument;
-                var ed = acDoc.Editor;
-                var entResult = ed.PromptForEntity("\nSelect hedge row centre line: ", typeof(Polyline),"Only polylines allowed.");
-                if (!entResult.HasValue) return;
-
-                using (var acTrans = acDoc.TransactionManager.StartTransaction())
+                if (newHedgeRow == null)
                 {
-                    var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                    var newHedgeRow = BuildTreeOptions<HedgeRow>(treeRingManager);
-
-                    if (newHedgeRow == null)
-                    {
-                        acTrans.Abort();
-                        return;
-                    }
-
-                    newHedgeRow.BaseObject = entResult.Value;
-                    newHedgeRow.Generate();
-                    newHedgeRow.AddLabel();
-
-                    treeRingManager.AddTree(newHedgeRow);
-
-                    acTrans.Commit();
+                    acTrans.Abort();
+                    return;
                 }
-            }
-            catch (System.Exception e)
-            {
-                StructuresExtensionApplication.Current.Logger.LogException(e);
-                throw;
+
+                newHedgeRow.BaseObject = entResult.Value;
+                newHedgeRow.Generate();
+                newHedgeRow.AddLabel();
+
+                treeRingManager.AddTree(newHedgeRow);
+
+                acTrans.Commit();
             }
         }
 
+
         [CommandMethod("S_TreeRings_New")]
+        [IronstoneCommand]
         public static void NewTree()
         {
-            try
-            {
-                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(NewTree));
 
-                var acDoc = Application.DocumentManager.MdiActiveDocument;
-                var ed = acDoc.Editor;
-                using (var acTrans = acDoc.TransactionManager.StartTransaction())
+            var acDoc = Application.DocumentManager.MdiActiveDocument;
+            var ed = acDoc.Editor;
+            using (var acTrans = acDoc.TransactionManager.StartTransaction())
+            {
+                var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                var newTree = BuildTreeOptions<Tree>(treeRingManager);
+
+                if (newTree == null)
                 {
-                    var treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                    var newTree = BuildTreeOptions<Tree>(treeRingManager);
-
-                    if (newTree == null)
-                    {
-                        acTrans.Abort();
-                        return;
-                    }
-
-                    var point = ed.PromptForPosition("\nClick to enter location: ");
-                    if (!point.HasValue)
-                    {
-                        acTrans.Abort();
-                        return;
-                    }
-
-                    newTree.Location = new Point3d(point.Value.X, point.Value.Y, 0);
-
-                    newTree.Generate();
-                    newTree.AddLabel();
-
-                    treeRingManager.AddTree(newTree);
-
-                    acTrans.Commit();
+                    acTrans.Abort();
+                    return;
                 }
-            }
-            catch (System.Exception e)
-            {
-                StructuresExtensionApplication.Current.Logger.LogException(e);
-                throw;
+
+                var point = ed.PromptForPosition("\nClick to enter location: ");
+                if (!point.HasValue)
+                {
+                    acTrans.Abort();
+                    return;
+                }
+
+                newTree.Location = new Point3d(point.Value.X, point.Value.Y, 0);
+
+                newTree.Generate();
+                newTree.AddLabel();
+
+                treeRingManager.AddTree(newTree);
+
+                acTrans.Commit();
             }
         }
 
         [CommandMethod("S_TreeRings_Copy")]
+        [IronstoneCommand]
         public static void CopyTree()
         {
-            try
+
+            Document acDoc = Application.DocumentManager.MdiActiveDocument;
+
+            using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
             {
-                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(CopyTree));
-
-                Document acDoc = Application.DocumentManager.MdiActiveDocument;
-
-                using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+                PromptStringOptions pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") {AllowSpaces = false};
+                PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
+                if (pStrResPlot.Status != PromptStatus.OK)
                 {
-                    PromptStringOptions pStrOptsPlot = new PromptStringOptions("\nEnter tree ID: ") { AllowSpaces = false };
-                    PromptResult pStrResPlot = acDoc.Editor.GetString(pStrOptsPlot);
-                    if (pStrResPlot.Status != PromptStatus.OK)
-                    {
-                        acTrans.Abort();
-                        return;
-                    }
-
-                    string id = pStrResPlot.StringResult;
-
-                    TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                    Tree treeToBeCopied = treeRingManager.ManagedObjects.FirstOrDefault(t => t.ID == id);
-                    if (treeToBeCopied == null)
-                    {
-                        StructuresExtensionApplication.Current.Logger.Entry($"No tree found matching ID {id}",
-                            Severity.Warning);
-                        acTrans.Abort();
-                        return;
-                    }
-
-                    PromptPointOptions pPtOpts = new PromptPointOptions("\nEnter location: ");
-                    PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
-                    while (pPtRes.Status == PromptStatus.OK)
-                    {
-                        Tree newTree = new Tree
-                        {
-                            ActualHeight = treeToBeCopied.ActualHeight,
-                            ToBeRemoved = treeToBeCopied.ToBeRemoved,
-                            Phase = treeToBeCopied.Phase,
-                            Species = treeToBeCopied.Species,
-                            TreeType = treeToBeCopied.TreeType,
-                            WaterDemand = treeToBeCopied.WaterDemand,
-                            ID = treeRingManager.ManagedObjects.Count.ToString(),
-                            Location = new Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0)
-                        };
-
-                        newTree.AddLabel();
-
-                        treeRingManager.AddTree(newTree);
-
-                        acDoc.TransactionManager.QueueForGraphicsFlush();
-                        pPtRes = acDoc.Editor.GetPoint(pPtOpts);
-                    }
-
-                    acTrans.Commit();
+                    acTrans.Abort();
+                    return;
                 }
-            }
-            catch (System.Exception e)
-            {
-                StructuresExtensionApplication.Current.Logger.LogException(e);
-                throw;
+
+                string id = pStrResPlot.StringResult;
+
+                TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                Tree treeToBeCopied = treeRingManager.ManagedObjects.FirstOrDefault(t => t.ID == id);
+                if (treeToBeCopied == null)
+                {
+                    StructuresExtensionApplication.Current.Logger.LogWarning($"No tree found matching ID {id}");
+                    acTrans.Abort();
+                    return;
+                }
+
+                PromptPointOptions pPtOpts = new PromptPointOptions("\nEnter location: ");
+                PromptPointResult pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                while (pPtRes.Status == PromptStatus.OK)
+                {
+                    Tree newTree = new Tree
+                    {
+                        ActualHeight = treeToBeCopied.ActualHeight,
+                        ToBeRemoved = treeToBeCopied.ToBeRemoved,
+                        Phase = treeToBeCopied.Phase,
+                        Species = treeToBeCopied.Species,
+                        TreeType = treeToBeCopied.TreeType,
+                        WaterDemand = treeToBeCopied.WaterDemand,
+                        ID = treeRingManager.ManagedObjects.Count.ToString(),
+                        Location = new Point3d(pPtRes.Value.X, pPtRes.Value.Y, 0)
+                    };
+
+                    newTree.AddLabel();
+
+                    treeRingManager.AddTree(newTree);
+
+                    acDoc.TransactionManager.QueueForGraphicsFlush();
+                    pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+                }
+
+                acTrans.Commit();
             }
         }
 
         //TODO: Unit test
         [CommandMethod("idtreering")]
+        [IronstoneCommand]
         public static void RingId()
         {
-            try
+            Document acDoc = Application.DocumentManager.MdiActiveDocument;
+
+            PromptEntityResult per = acDoc.Editor.GetEntity("Please select tree ring:");
+
+            using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
             {
-                StructuresExtensionApplication.Current.Logger.LogCommand(typeof(TreeRingCommands), nameof(CopyTree));
-                Document acDoc = Application.DocumentManager.MdiActiveDocument;
+                TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
+                TreeRing matchedRing = treeRingManager.RingsCollection.Values.FirstOrDefault(t => t.BaseObject == per.ObjectId);
 
-                PromptEntityResult per = acDoc.Editor.GetEntity("Please select tree ring:");
-
-                using (Transaction acTrans = acDoc.TransactionManager.StartTransaction())
+                if (matchedRing == null)
                 {
-                    TreeRingManager treeRingManager = DataService.Current.GetStore<StructureDocumentStore>(acDoc.Name).GetManager<TreeRingManager>();
-                    TreeRing matchedRing = treeRingManager.RingsCollection.Values.FirstOrDefault(t => t.BaseObject == per.ObjectId);
-
-                    if (matchedRing == null)
-                    {
-                        acDoc.Editor.WriteMessage("Selected object is not a tree ring\n");
-                    }
-                    else
-                    {
-                        acDoc.Editor.WriteMessage($"Tree ring of depth {matchedRing.Depth}\n");
-                    }
+                    acDoc.Editor.WriteMessage("Selected object is not a tree ring\n");
                 }
-            }
-            catch (System.Exception e)
-            {
-                StructuresExtensionApplication.Current.Logger.LogException(e);
-                throw;
+                else
+                {
+                    acDoc.Editor.WriteMessage($"Tree ring of depth {matchedRing.Depth}\n");
+                }
             }
         }
 
