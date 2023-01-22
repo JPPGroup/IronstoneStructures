@@ -47,6 +47,7 @@
 
   <ItemGroup Condition=" $(Configuration.Contains('Local')) ">
     <ProjectReference Include="..\..\IronstoneObjectModel\Housing\HousingObjectModel.csproj" />
+	  <ProjectReference Include="..\..\IronstoneObjectModel\HousingUI\HousingObjectModelUi.csproj" />
     <ProjectReference Include="..\..\IronstoneObjectModel\Structures\StructuresObjectModel.csproj" />
   </ItemGroup>
 </Project>
