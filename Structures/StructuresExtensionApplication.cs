@@ -3,6 +3,7 @@ using Autodesk.Windows;
 using Jpp.Ironstone.Core;
 using Jpp.Ironstone.Core.UI;
 using Jpp.Ironstone.Housing.ObjectModel;
+using Jpp.Ironstone.Housing.ObjectModel.UI;
 using Jpp.Ironstone.Structures.Properties;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
